@@ -1,0 +1,27 @@
+version: '3.9'
+services:
+  db:
+    build: ./mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: local_db
+      MYSQL_USER: root
+      MYSQL_PASSWORD: pws123
+    ports:
+      - "3306:3306"
+
+  api_mysql:
+    build: ./api_sql
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      DOCKER_CONTAINER: "true"
+
+  api_craw:
+    build: ./crawling
+    ports:
+      - "8000:8000"
+    environment:
+      DOCKER_CONTAINER: "true"
